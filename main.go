@@ -22,18 +22,22 @@ func main() {
 	config.ConnectDB()
 
 	// 自动迁移数据库表
-	config.DB.AutoMigrate(&models.User{})
+	err = config.DB.AutoMigrate(&models.User{})
+	if err != nil {
+		return
+	}
 
 	app := fiber.New()
 
 	// 注册认证路由
 	routes.AuthRoutes(app)
 
+	url := os.Getenv("URL")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000" // 默认端口
 	}
 
 	log.Printf("服务器在端口 %s 上运行...", port)
-	log.Fatal(app.Listen(":" + port))
+	log.Fatal(app.Listen(url + ":" + port))
 }

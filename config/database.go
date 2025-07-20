@@ -31,5 +31,5 @@ func ConnectDB() {
 		log.Fatalf("无法连接到数据库: %v", err)
 	}
 
-	fmt.Println("成功连接到 PostgreSQL 数据库!")
+	log.Println("成功连接到 PostgreSQL 数据库!")
 }
