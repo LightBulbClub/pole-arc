@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -14,13 +13,17 @@ var DB *gorm.DB
 
 func ConnectDB() {
 	var err error
-	// 从环境变量加载数据库连接字符串
+	// 从TOML配置加载数据库连接字符串
+	if AppConfig == nil {
+		log.Fatal("配置未加载，请先调用 LoadConfig()")
+	}
+	
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Singapore",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
+		AppConfig.Database.Host,
+		AppConfig.Database.User,
+		AppConfig.Database.Password,
+		AppConfig.Database.Name,
+		AppConfig.Database.Port,
 	)
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{

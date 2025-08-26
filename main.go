@@ -5,24 +5,22 @@ import (
 	"github.com/LightBulbClub/rolling-wheel/models"
 	"github.com/LightBulbClub/rolling-wheel/routes"
 	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// 加载 .env 文件
-	err := godotenv.Load()
+	// 加载 TOML 配置文件
+	err := config.LoadConfig("config.toml")
 	if err != nil {
-		log.Fatalf("无法加载 .env 文件: %v", err)
+		log.Fatalf("无法加载配置文件: %v", err)
 	}
 
 	// 连接数据库
 	config.ConnectDB()
 
 	// 自动迁移数据库表
-	err = config.DB.AutoMigrate(&models.User{})
+	err = config.DB.AutoMigrate(&models.Student{}, &models.Teacher{}, &models.AssociationLog{})
 	if err != nil {
 		return
 	}
@@ -30,14 +28,11 @@ func main() {
 	app := fiber.New()
 
 	// 注册认证路由
-	routes.AuthRoutes(app)
+	routes.Routes(app)
 
-	url := os.Getenv("URL")
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000" // 默认端口
-	}
+	// 从配置获取服务器地址
+	serverAddress := config.GetServerAddress()
 
-	log.Printf("服务器在端口 %s 上运行...", port)
-	log.Fatal(app.Listen(url + ":" + port))
+	log.Printf("服务器在地址 %s 上运行...", serverAddress)
+	log.Fatal(app.Listen(serverAddress))
 }

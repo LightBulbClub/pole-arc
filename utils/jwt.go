@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"os"
 	"time"
 
+	"github.com/LightBulbClub/rolling-wheel/config"
 	"github.com/dgrijalva/jwt-go/v4"
 )
 
@@ -13,20 +13,23 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-var jwtSecret = []byte(os.Getenv("JWT_SECRET")) // 从环境变量获取 JWT 密钥
+// getJWTSecret 从配置获取 JWT 密钥
+func getJWTSecret() []byte {
+	return []byte(config.GetJWTSecret())
+}
 
 // GenerateJWT 为指定用户 ID 生成 JWT
 func GenerateJWT(userID uint) (string, error) {
 	claims := Claims{
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: jwt.NewTime(float64(time.Now().Add(time.Hour * 24).Unix())), // 24 小时过期
+			ExpiresAt: jwt.NewTime(float64(time.Now().Add(time.Hour * 24 * 7).Unix())), // 7 * 24 小时过期
 			Issuer:    "your-auth-api",
 		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtSecret)
+	tokenString, err := token.SignedString(getJWTSecret())
 	if err != nil {
 		return "", err
 	}
@@ -36,7 +39,7 @@ func GenerateJWT(userID uint) (string, error) {
 // ParseJWT 解析 JWT 并返回 Claims
 func ParseJWT(tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return jwtSecret, nil
+		return getJWTSecret(), nil
 	})
 
 	if err != nil {
