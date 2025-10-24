@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/LightBulbClub/rolling-wheel/utils"
+	"github.com/LightBulbClub/pole-arc/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,4 +1,4 @@
-module github.com/LightBulbClub/rolling-wheel
+module github.com/LightBulbClub/pole-arc
 
 go 1.24.5
 

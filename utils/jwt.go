@@ -3,7 +3,7 @@ package utils
 import (
 	"time"
 
-	"github.com/LightBulbClub/rolling-wheel/config"
+	"github.com/LightBulbClub/pole-arc/config"
 	"github.com/dgrijalva/jwt-go/v4"
 )
 

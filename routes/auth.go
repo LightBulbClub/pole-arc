@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/LightBulbClub/rolling-wheel/config"
-	"github.com/LightBulbClub/rolling-wheel/models"
-	"github.com/LightBulbClub/rolling-wheel/utils"
+	"github.com/LightBulbClub/pole-arc/config"
+	"github.com/LightBulbClub/pole-arc/models"
+	"github.com/LightBulbClub/pole-arc/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"

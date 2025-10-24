@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/LightBulbClub/rolling-wheel/middlewares"
+	"github.com/LightBulbClub/pole-arc/middlewares"
 	"github.com/gofiber/fiber/v2"
 )
 

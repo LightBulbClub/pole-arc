@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/LightBulbClub/rolling-wheel/config"
-	"github.com/LightBulbClub/rolling-wheel/models"
-	"github.com/LightBulbClub/rolling-wheel/routes"
 	"log"
+
+	"github.com/LightBulbClub/pole-arc/config"
+	"github.com/LightBulbClub/pole-arc/models"
+	"github.com/LightBulbClub/pole-arc/routes""
 
 	"github.com/gofiber/fiber/v2"
 )
